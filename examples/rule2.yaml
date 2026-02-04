@@ -1,0 +1,21 @@
+title: Malicious PowerShell Network Activity
+id: 87654321-4321-4321-4321-cba987654321
+status: experimental
+description: Detects PowerShell network download commands
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains:
+      - 'Invoke-WebRequest'
+      - 'wget'
+      - 'curl'
+      - 'Start-BitsTransfer'
+    ProcessCommandLine|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+  condition: selection
+falsepositives:
+  - Administrative scripts
+level: high
