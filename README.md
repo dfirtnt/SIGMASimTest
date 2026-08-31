@@ -136,6 +136,12 @@ Normalization rules:
 Atoms are rendered for display only at emit time, as `field|op:value`
 (or `field:value` when the chain is empty). All set math runs on raw identities.
 
+> **Does this discard attacker signal?** No. There is no fuzzy, spelling or edit-distance
+> matching anywhere, so misspellings and homoglyph binary names are never merged. Case
+> folds only where Sigma itself matches case-insensitively — meaning both forms already
+> hit the same events, so the two rules are genuine duplicates. Full reasoning, worked
+> examples and measured impact: **[docs/matching-semantics.md](docs/matching-semantics.md)**.
+
 ### Polarity
 
 Polarity comes **exclusively from the condition AST**. Negation is whatever `not` makes
@@ -401,6 +407,11 @@ The suite covers atom identity and folding, the condition grammar, DNF canonical
 containment buckets, full registry resolvability, the novelty layer, the golden vectors,
 and determinism. Every test encodes a behavior that fixed a real shipped bug — they are
 regression contracts, not illustrations.
+
+Further reading: **[docs/matching-semantics.md](docs/matching-semantics.md)** covers what is
+and isn't normalized, and why. `tests/test_matching_semantics_doc.py` is its executable
+contract — change the engine's normalization behavior and that suite fails, so the document
+cannot silently go stale.
 
 ---
 
