@@ -1,0 +1,28 @@
+[project]
+name = "sigma-atom-similarity"
+version = "0.1.0"
+description = "Deterministic Sigma rule atom set-math similarity engine"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["pyyaml==6.0.3"]
+
+[project.scripts]
+sigma-similarity = "cli:main"
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]  # build tools: >= is standard here
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sigma_similarity*"]
+
+[tool.setuptools]
+py-modules = ["cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "unit: deterministic unit test (no I/O beyond reading rule files)",
+  "regression: locks in a previously shipped bug fix",
+]
